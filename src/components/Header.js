@@ -1,26 +1,30 @@
-import PropTypes from 'prop-types'
-import Button from './Button'
+import PropTypes from "prop-types";
+import Button from "./Button";
 
-const Header = ({ title }) => {
-  return (
-    <header className='header'>
-      <h1>{title}</h1>
-      <Button color='black' text='Add'/>
-    </header>
-  )
-}
+const Header = ({ title, onShow, showStatus }) => {
+	return (
+		<header className="header">
+			<h1>{title}</h1>
+			<Button
+				color={showStatus ? "red" : "green"}
+				text={showStatus ? "close" : "Add"}
+				onClick={onShow}
+			/>
+		</header>
+	);
+};
 
 Header.defaultProps = {
-  title: 'Task Tracker',
-}
+	title: "Task Tracker",
+};
 
 Header.propTypes = {
-  title: PropTypes.string,
-}
+	title: PropTypes.string,
+};
 
 // variable css tyle
 // const headingStyle = {
 //   color: 'red',
 // }
 
-export default Header
+export default Header;
