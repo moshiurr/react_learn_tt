@@ -1,53 +1,52 @@
 import { useState } from "react";
 
 const AddTask = ({ onAdd }) => {
-	const [name, setName] = useState("");
-	const [age, setAge] = useState("");
-	const [active, setActive] = useState(false);
+	const [title, setTitle] = useState("");
+	const [time, setTime] = useState("");
+	const [reminder, setReminder] = useState(false);
 
 	const onSubmit = e => {
 		e.preventDefault();
 
-		if (!name || !age) {
+		if (!title || !time) {
 			alert("Please insert valid input");
 			return;
 		}
 
-		onAdd({ name, age, active });
+		onAdd({ title, time, reminder });
 
-		setName("");
-		setAge("");
-		setActive(false);
+		setTitle("");
+		setTime("");
+		setReminder(false);
 	};
 
 	return (
 		<form className="add-form" onSubmit={onSubmit}>
 			<div className="form-control">
-				<label>Name</label>
+				<label>Title</label>
 				<input
 					type="text"
 					placeholder="Add Name"
-					value={name}
-					onChange={e => setName(e.target.value)}
+					value={title}
+					onChange={e => setTitle(e.target.value)}
 				/>
 			</div>
 			<div className="form-control">
-				<label>Age</label>
+				<label>Time</label>
 				<input
-					type="number"
-					placeholder="Add Age"
-					min="1"
-					value={age}
-					onChange={e => setAge(e.target.value)}
+					type="text"
+					placeholder="Add Date and Time"
+					value={time}
+					onChange={e => setTime(e.target.value)}
 				/>
 			</div>
 			<div className="form-control form-control-check">
-				<label>Set Active</label>
+				<label>Set Reminder</label>
 				<input
 					type="checkbox"
-					checked={active}
-					value={active}
-					onChange={e => setActive(e.currentTarget.checked)}
+					checked={reminder}
+					value={reminder}
+					onChange={e => setReminder(e.currentTarget.checked)}
 				/>
 			</div>
 			<input type="submit" value="Save" className="btn btn-block" />

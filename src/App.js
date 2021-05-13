@@ -6,26 +6,16 @@ import AddTask from "./components/AddTask";
 function App() {
 	const [tasks, setTasks] = useState([
 		{
-			id: 1,
-			name: "Alif",
-			age: 24,
-			active: true,
-		},
-		{
-			id: 2,
-			name: "Asif",
-			age: 30,
-			active: true,
-		},
-		{
-			id: 3,
-			name: "Riaz",
-			age: 23,
-			active: false,
+			id: 0,
+			title: "Call Alif",
+			time: "May 21st 9pm",
+			reminder: true,
 		},
 	]);
 
 	const [showForm, setShowForm] = useState(false);
+
+	const [idCounter, setIdCounter] = useState(1);
 
 	//delete task event
 	const deleteTask = id => {
@@ -38,17 +28,16 @@ function App() {
 		console.log("Toggle", id);
 		setTasks(
 			tasks.map(task =>
-				task.id === id ? { ...task, active: !task.active } : task
+				task.id === id ? { ...task, reminder: !task.reminder } : task
 			)
 		);
 	};
 
 	//adding the new event to the state
 	const addTask = task => {
-		//console.log(task);
-		const n_id = tasks.length + 1;
+		const newTask = { ...task, id: idCounter };
 
-		const newTask = { n_id, ...task };
+		setIdCounter(idCounter + 1);
 		setTasks([...tasks, newTask]);
 	};
 
