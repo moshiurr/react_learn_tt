@@ -1,45 +1,91 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import axios from "axios";
 
 function App() {
-	const [tasks, setTasks] = useState([
-		{
-			id: 0,
-			title: "Call Alif",
-			time: "May 21st 9pm",
-			reminder: true,
-		},
-	]);
+	const [tasks, setTasks] = useState([]);
 
 	const [showForm, setShowForm] = useState(false);
 
-	const [idCounter, setIdCounter] = useState(1);
+	//const [idCounter, setIdCounter] = useState(1);
 
 	//delete task event
-	const deleteTask = id => {
-		console.log("delete ", id);
-		setTasks(tasks.filter(task => task.id !== id));
+	const deleteTask = async taskId => {
+		console.log("delete ", taskId);
+
+		try {
+			const delTask = await axios.delete(
+				"http://localhost:8800/api/v1/tasks/" + taskId
+			);
+
+			console.log(delTask.data, " task deleted");
+		} catch (err) {
+			console.log(err.message);
+		}
+
+		setTasks(tasks.filter(task => task._id !== taskId));
 	};
 
 	//toggle remainder event
-	const toggleRemainder = id => {
-		console.log("Toggle", id);
+	const toggleRemainder = async taskId => {
+		console.log("Toggle", taskId);
+
+		try {
+			const t = await axios.patch(
+				"http://localhost:8800/api/v1/tasks/" + taskId
+			);
+			console.log(t.data);
+		} catch (err) {
+			console.log(err.message);
+		}
+
 		setTasks(
 			tasks.map(task =>
-				task.id === id ? { ...task, reminder: !task.reminder } : task
+				task._id === taskId ? { ...task, reminder: !task.reminder } : task
 			)
 		);
 	};
 
 	//adding the new event to the state
-	const addTask = task => {
-		const newTask = { ...task, id: idCounter };
+	const addTask = async task => {
+		//const newTask = { ...task, id: idCounter };
+		try {
+			const savedTask = await axios.post(
+				"http://localhost:8800/api/v1/tasks/",
+				{
+					userId: "6151fd57dc92d884f750668a",
+					title: task.title,
+					time: task.time,
+					reminder: task.reminder,
+				}
+			);
+			console.log(savedTask.data);
+			setTasks([...tasks, savedTask.data]);
+		} catch (err) {
+			console.log(err);
+		}
 
-		setIdCounter(idCounter + 1);
-		setTasks([...tasks, newTask]);
+		//setIdCounter(idCounter + 1);
 	};
+
+	useEffect(() => {
+		const fetchTask = async userId => {
+			try {
+				const allTasks = await axios.get(
+					"http://localhost:8800/api/v1/tasks/" + userId
+				);
+
+				setTasks(allTasks.data);
+				console.log(allTasks.data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		fetchTask("6151fd57dc92d884f750668a");
+	}, [setTasks]);
 
 	return (
 		<div className="container">

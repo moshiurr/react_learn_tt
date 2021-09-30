@@ -28,13 +28,27 @@ router.get("/:userId", async (req, res) => {
 	}
 });
 
-//modify task
-// router.patch("/:taskId", async (req, res) => {});
+//modify task only change the reminder property
+router.patch("/:taskId", async (req, res) => {
+	try {
+		const task = await Task.findById(req.params.taskId);
+
+		if (!task) return res.status(404).send();
+
+		task.reminder = !task.reminder;
+		await task.save();
+
+		res.send(task);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+});
 
 //delete task
 router.delete("/:taskId", async (req, res) => {
 	try {
 		const delTask = await Task.findByIdAndDelete(req.params.taskId);
+		if (!delTask) return res.status(404).send();
 		res.send(delTask);
 	} catch (err) {
 		res.status(500).send(err);

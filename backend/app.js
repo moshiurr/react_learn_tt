@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cors = require("cors");
 require("./src/db/mongoose");
 
 const app = express();
@@ -12,6 +13,7 @@ const port = process.env.PORT || 3000;
 
 //middlewares
 app.use(express.json());
+app.use(cors());
 app.use(helmet());
 app.use(morgan("common"));
 
