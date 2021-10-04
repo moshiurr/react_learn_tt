@@ -1,8 +1,18 @@
 import { useState } from "react";
 
+import { useHistory } from 'react-router-dom';
+
 export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const hisrtory = useHistory();
+
+	const submitHandle = (e)=> {
+
+		e.preventDefault();
+
+	}
 
 	return (
 		<div className="container">
@@ -27,7 +37,8 @@ export default function Login() {
 					/>
 				</div>
 
-				<input type="submit" value="Login" className="btn btn-block" />
+				<input type="submit" value="Login" className="btn btn-block" onClick={submitHandle}/>
+				<h3>Don't have an account! <button onClick={()=>{hisrtory.push("/register")}}>Sign Up</button></h3>
 			</form>
 		</div>
 	);
