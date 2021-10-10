@@ -1,14 +1,36 @@
 import { useState } from "react";
 import Button from "../components/Button";
 
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useHistory } from "react-router";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+	const history = useHistory();
 
-	const submitHandle = e => {
+	const submitHandle = async e => {
 		e.preventDefault();
+
+		try {
+			if (email === "" || password === "")
+				throw new Error("Enter Credentials first!");
+
+			const res = await axios.post("http://localhost:8800/api/v1/users/login", {
+				email,
+				password,
+			});
+
+			console.log(res.data);
+			history.push("/dashboard");
+		} catch (err) {
+			setError(err.message);
+			console.log(err);
+		}
+
+		console.log(email, password);
 	};
 
 	return (
@@ -34,6 +56,13 @@ export default function Login() {
 					/>
 				</div>
 
+				{error ? (
+					<h4 style={{ color: "red" }}>
+						Check your credentials and Try again!
+					</h4>
+				) : (
+					""
+				)}
 				<input type="submit" value="Login" className="btn btn-block" />
 				<div className="registerDiv">
 					<span>
