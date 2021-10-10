@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
 import Button from "../components/Button";
 
-import { useHistory, Link } from "react-router-dom";
-
-export default function Login() {
+export default function Register() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [fullname, setFullname] = useState("");
 
 	const submitHandle = e => {
 		e.preventDefault();
@@ -13,12 +13,19 @@ export default function Login() {
 
 	return (
 		<div className="container">
-			<h1>Sign In</h1>
+			<h1>Register</h1>
 			<form className="add-form" onSubmit={submitHandle}>
 				<div className="form-control">
+					<label>Full Name</label>
+					<input
+						type="text"
+						placeholder="Enter Your Full name"
+						value={fullname}
+						onChange={e => setFullname(e.target.value)}
+					/>
 					<label>Email</label>
 					<input
-						type="email"
+						type="text"
 						placeholder="Enter Your Email Address"
 						value={email}
 						onChange={e => setEmail(e.target.value)}
@@ -34,12 +41,12 @@ export default function Login() {
 					/>
 				</div>
 
-				<input type="submit" value="Login" className="btn btn-block" />
+				<input type="submit" value="Sign Up" className="btn btn-block" />
 				<div className="registerDiv">
 					<span>
-						Don't have an account...
-						<Link to="/register">
-							<Button color="green" text="Register" />
+						Already have a account....
+						<Link to="/">
+							<Button color="green" text="Login" />
 						</Link>
 					</span>
 				</div>
