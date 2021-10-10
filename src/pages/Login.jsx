@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../components/Button";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function Login() {
 				<div className="form-control">
 					<label>Email</label>
 					<input
-						type="text"
+						type="email"
 						placeholder="Enter Your Email Address"
 						value={email}
 						onChange={e => setEmail(e.target.value)}
@@ -28,6 +29,12 @@ export default function Login() {
 				</div>
 
 				<input type="submit" value="Login" className="btn btn-block" />
+				<div className="registerDiv">
+					<span>
+						Don't have an account...
+						<Button color="green" text="Register" />
+					</span>
+				</div>
 			</form>
 		</div>
 	);
